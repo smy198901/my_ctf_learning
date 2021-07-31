@@ -452,7 +452,11 @@ zsteg pcat.png -a
 zsteg -E "b1,bgr,lsb,xy" pcat.png > p.exe
 ```
 
+### gif
 
+按帧分离和拼接：使用convert命令
+
+每帧重叠显示：使用ps打开gif文件，显示所有图层。
 
 ## 压缩包隐写术
 
