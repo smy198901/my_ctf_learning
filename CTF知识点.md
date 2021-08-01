@@ -430,8 +430,16 @@ PNG图片修改高度显示隐藏信息，IHDR后面8位是宽和高（宽和高
 
 工具安装在kali中
 
-```shell
-outguess -r /root/angrybird.jpg -t 11.txt
+加密
+
+```
+ outguess -k "my secret key" -d hidden.txt demo.jpg out.jpg
+```
+
+解密
+
+```
+ outguess -k "my secret key" -r out.jpg hidden.txt
 ```
 
 ### zsteg
@@ -514,7 +522,11 @@ F7 46：最后修改文件日期
 
 掩码使用？替换。????LiHua ，就是以LiHua结尾的9位密码。
 
-
+>**明文攻击**
+>
+>明文攻击的明文文件需要使用和被攻击文件使用同样的压缩软件压缩
+>
+>当出现压缩文件和其他文件同时出现时，考虑使用明文攻击
 
 ## 其他隐写术
 
@@ -629,6 +641,10 @@ extundelete disk-image --inode 2
 #恢复指定目录
 extundelete disk-image --restore-directory /webapps/xxxx/upload
 ```
+
+## OurSecret
+
+文件加密软件，可以从图片等文件中unhide其他文件。
 
 # Web
 
