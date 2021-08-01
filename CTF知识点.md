@@ -612,6 +612,24 @@ git stash apply
 
 git源码泄露，查看Web-信息泄露的内容。
 
+# MISC（杂项）
+
+## linux image
+
+```shell
+#挂载镜像到out目录
+mount disk-image /out/
+
+#数据恢复  恢复全部数据
+extundelete disk-image --restore-all
+
+#查看根节点信息
+extundelete disk-image --inode 2
+
+#恢复指定目录
+extundelete disk-image --restore-directory /webapps/xxxx/upload
+```
+
 # Web
 
 ## 信息泄露
