@@ -646,6 +646,20 @@ extundelete disk-image --restore-directory /webapps/xxxx/upload
 
 文件加密软件，可以从图片等文件中unhide其他文件。
 
+## RockStar
+
+.rock结尾的文件，可以使用rockstar-py转为python文件。
+
+>```
+>#安装
+>pip install rockstar-py 
+>```
+>
+>```
+>#用法
+>rockstar-py [-h] (-i INPUT | --stdin) [-o OUTPUT | --stdout | --exec] [-v]
+>```
+
 # Web
 
 ## 信息泄露
