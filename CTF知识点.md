@@ -516,6 +516,14 @@ F7 46：最后修改文件日期
 3E 00 00 00：目录区对第一张磁盘的偏移量
 00 00：ZIP 文件注释长度
 
+工具：ZipCenOp.jar
+
+```
+java -jar ZipCenOp.jar -r a.zip
+```
+
+
+
 ### Zip密码爆破
 
 使用工具暴力破解，工具：Advanced Archive Password Recovery
