@@ -1,0 +1,30 @@
+<?php 
+	header("content-type:text/html;charset=utf-8");
+	$filename = $_FILES['file']['name'];
+	$temp_name = $_FILES['file']['tmp_name'];
+	$size = $_FILES['file']['size'];
+	$error = $_FILES['file']['error'];
+	$arr = pathinfo($filename);
+	$ext_suffix = $arr['extension'];
+	if ($size > 24){
+		die("error file zise");
+	}
+	if (strlen($filename)>9){
+		die("error file name");
+	}
+	if(strlen($ext_suffix)>3){
+		die("error suffix");
+	}
+	if(preg_match("/php/i",$ext_suffix)){
+		die("error suffix");
+    }
+    if(preg_match("/php/i"),$filename)){
+        die("error file name");
+    }
+	if (move_uploaded_file($temp_name, './'.$filename)){
+		echo "文件上传成功！";
+	}else{
+		echo "文件上传失败！";
+	}
+
+ ?>
