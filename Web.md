@@ -268,7 +268,13 @@ c""at fl""ag.txt
 c\at fl\ag.txt
 ```
 
-## SSRF
+## order by
+
+当需要判断的字段可以使用order by 时，可以利用脚本猜测。
+
+类似题目：ctf.show_CTFshow web1
+
+# SSRF
 
 1. dict protocol (操作Redis)
    curl -vvv 'dict://127.0.0.1:6379/info'  
@@ -292,9 +298,11 @@ PHP 会在每个目录下搜寻的文件名；如果设定为空字符串则 PHP
 
 见ctf.show_web13。
 
+## 
 
 
-# PH。userP
+
+# PHP
 
 ## 常用函数
 
