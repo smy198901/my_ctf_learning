@@ -48,6 +48,24 @@ python ook.py -0 file_name
 python ook.py -b file_name
 ```
 
+# 培根密码
+
+培根密码，类似于二进制0和1，但是是用A和B来替代的。
+
+解码工具: CtfCrackTool。
+
+密码表如下：
+
+|      |       |      |       |      |       |      |       |
+| ---- | ----- | ---- | ----- | ---- | ----- | ---- | ----- |
+| A/a  | aaaaa | H/h  | aabbb | O/o  | abbba | V/v  | babab |
+| B/b  | aaaab | I/i  | abaaa | P/p  | abbbb | W/w  | babba |
+| C/c  | aaaba | J/j  | abaab | Q/q  | baaaa | X/x  | babbb |
+| D/d  | aaabb | K/k  | ababa | R/r  | baaab | Y/y  | bbaaa |
+| E/e  | aabaa | L/l  | ababb | S/s  | baaba | Z/z  | bbaab |
+| F/f  | aabab | M/m  | abbaa | T/t  | baabb |      |       |
+| G/g  | aabba | N/n  | abbab | U/u  | babaa |      |       |
+
 # Quoted-printable
 
 **Quoted-printable**可译为“可打印字符引用编码”，编码常用在电子邮件中，如：Content-Transfer-Encoding: quoted-printable ，它是MIME编码常见一种表示方法！ 在邮件里面我们常需要用可打印的ASCII字符 (如字母、数字与"=")表示各种编码格式下的字符！Quoted-printable将任何8-bit字节值可编码为3个字符：一个等号"="后跟随两个十六进制数字(0–9或A–F)表示该字节的数值。例如，ASCII码换页符（十进制值为12）可以表示为"=0C"， 等号"="（十进制值为61）必须表示为"=3D"，gb2312下“中”表示为=D6=D0。除了可打印ASCII字符与换行符以外，所有字符必须表示为这种格式。因为Quoted-printable编码简单、方便因此在电子邮件中应用广泛！
