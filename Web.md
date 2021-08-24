@@ -136,6 +136,16 @@ if __name__ == '__main__':
         print(result)
 ```
 
+## 堆叠注入
+
+堆叠注入就是将一堆sql语句叠加在一起执行，使用分号结束上一个语句再叠加其他语句一起执行。
+
+```
+1';show databases;--+
+```
+
+举例见：Web - 攻防世界 - supersqli
+
 ## 特殊注入
 
 ### php md5函数
@@ -311,6 +321,10 @@ phpinfo(); //显示php信息
 highlight_file("index.php");  //高亮显示文件源码
 print_r(); // 函数用于打印变量，以更容易理解的形式展示。
 glob();  // 函数返回匹配指定模式的文件名或目录。举个例子:glob("*") 匹配任意文件 glob("*.txt")匹配以txt为后缀的文件
+echo 123; //输出函数
+system(); //执行shell命令，可执行多条shell
+exec(); shell_exec(); //执行单条shell语句
+file_get_contents(); // 支持PHP伪协议, 把整个文件读入一个字符串中。
 ```
 
 
