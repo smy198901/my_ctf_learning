@@ -553,7 +553,7 @@ uncompyle2 -o f.py flag.pyc  # f.py还原好的文件  flag.pyc需要还原的�
 1. 测试模板注入
 
    ```shell
-   # 使用tplmap.py测试
+   # 使用tplmap.py测试  工具在Kali - Tools中
    python ./tplmap.py -u ‘xxxxxx’
    ```
 
@@ -627,11 +627,13 @@ uncompyle2 -o f.py flag.pyc  # f.py还原好的文件  flag.pyc需要还原的�
 
 # JWT伪造
 
-密钥爆破工具：c-jwt-cracker
+JWT密钥爆破工具：c-jwt-cracker，工具在Kali - Tools中。
 
 ```
-$ > ./jwtcrack eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.cAOIAifu3fykvhkHpbuhbvtH807-Z2rI1FS3vX1XMjE
+./jwtcrack eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.cAOIAifu3fykvhkHpbuhbvtH807-Z2rI1FS3vX1XMjE
 ```
+
+生成jwt：tools -> python脚本 -> jwt_encode.py
 
 
 
