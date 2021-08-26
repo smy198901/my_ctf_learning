@@ -19,6 +19,12 @@
 
 ## UPX
 
+UPX是一个通用可执行文件压缩器，可用于脱壳。
+
+```shell
+upx -d file -o new_file
+```
+
 # PE文件结构
 
 

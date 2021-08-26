@@ -539,11 +539,11 @@ index.php?s=index/think\App/invokeFunction&function=call_user_func_array&vars[0]
 cat flag.pyc  #查看.pyc文件的内容，flag可能可以直接找到。
 ```
 
-还原.pyc文件，使用`uncompyle2`
+还原.pyc文件，使用`uncompyle6
 
 ```shell
-#uncompyle2工具在kali虚拟机中
-uncompyle2 -o f.py flag.pyc  # f.py还原好的文件  flag.pyc需要还原的文件
+#uncompyle6工具在kali虚拟机中
+uncompyle6 -o f.py flag.pyc  # f.py还原好的文件  flag.pyc需要还原的文件
 ```
 
 ## 模板注入
