@@ -25,7 +25,16 @@ UPX是一个通用可执行文件压缩器，可用于脱壳。
 upx -d file -o new_file
 ```
 
+## dnSpy（.net）
+
+用于分析.net编译的文件。
+
 # PE文件结构
 
 
 
+# IDA动态调试
+
+F8：下一步     F7：步入函数
+
+见攻防世界 -- EASYHOOK
