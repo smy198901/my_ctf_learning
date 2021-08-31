@@ -10,6 +10,10 @@ plt表为（Procedure Link Table），是程序链接表。而got表为（Global
 
 当程序在第一次运行的时候，会进入已被转载进内存中的动态链接库中查找对应的函数和地址，并把函数的地址放到got表中，将got表的地址数据映射为plt表的表项；在程序二次运行的时候，就不用再重新查找函数地址，而是直接通过plt表找到got表中函数的地址，从而执行函数的功能了。
 
+## ebp和esp
+
+ 栈帧的边界由栈帧基地址指针EBP和堆栈指针ESP界定(指针存放在相应寄存器中)。EBP指向当前栈帧底部(高地址)，在当前栈帧内位置固定；ESP指向当前栈帧顶部(低地址)，当程序执行时ESP会随着数据的入栈和出栈而移动。因此函数中对大部分数据的访问都基于EBP进行。
+
 # pwntools
 
 **一定要在Kali中运行python脚本，否则将无法执行shell命名。**
@@ -187,4 +191,119 @@ x指令也可以显示地址上的指令信息，用法：x/i
 # 栈溢出
 
 ## 常见函数
+
+### read()
+
+```c
+#include <unistd.h>
+ssize_t read (int fd, void *buf, size_t nbyte)
+```
+
+fd：文件描述符；fd为0从键盘读取
+buf：指定的缓冲区，即指针，指向一段内存单元；
+nbyte：要读入文件指定的字节数
+
+read()会把参数fd所指的文件传送nbyte个字节到buf指针所指的内存中。若参数nbyte为0，则read()不会有作用并返回0。
+
+成功时,read返回实际所读的字节数,如果返回的值是0,表示已经读到文件的结束了.
+小于0表示出现了错误.如果错误为EINTR说明读是由中断引起的, 如果是ECONNREST表示网络连接出了问题.
+
+### write()
+
+```c
+#include <unistd.h>
+ssize_t write(int fd,const void *buf,size_t nbytes)
+```
+
+fd：文件描述符；fd为1输出到显示器
+buf：指定的缓冲区，即指针，指向一段内存单元；
+nbyte：要写入文件指定的字节数；
+
+write()会把参数buf 所指的内存写入nbytes 个字节到参数fd 所指的文件内. 当然, 文件读写位置也会随之移动.
+
+如果顺利write()会返回实际写入的字节数.
+当有错误发生时则返回-1, 错误代码存入errno 中.
+
+### gets
+
+```c
+# include <stdio.h>
+char *gets(char *str);
+```
+
+gets() 函数的功能是从输入缓冲区中读取一个字符串存储到字符指针变量 str 所指向的内存空间。
+
+使用 gets() 时，系统会将最后“敲”的换行符从缓冲区中取出来，然后丢弃，所以缓冲区中不会遗留换行符。这就意味着，如果前面使用过 gets()，而后面又要从键盘给字符变量赋值的话就不需要吸收回车清空缓冲区了，因为缓冲区的回车已经被 gets() 取出来扔掉了
+
+gets() 时有空格也可以直接输入，但是 gets() 有一个非常大的缺陷，即它不检查预留存储区是否能够容纳实际输入的数据，换句话说，如果输入的字符数目大于数组的长度，gets 无法检测到这个问题，就会发生内存越界。
+
+### strcpy和memcpy和strncpy
+
+```c
+char* strcpy(char* dest, const char* src)
+void *memcpy( void *dest, const void *src, size_t count );
+char *strncpy(char *dest,char *src,int size_t n);
+```
+
+dest:指向用于存储复制内容的目标数组。
+src:要复制的字符串。
+count：要读入文件指定的字节数；
+
+- strcpy提供了字符串的复制。即strcpy只用于字符串复制，并且它不仅复制字符串内容之外，还会复制字符串的结束符’\0’。
+- 复制的内容不同。strcpy只能复制字符串，而memcpy可以复制任意内容，例如字符数组、整型、结构体、类等。
+- 复制的方法不同。strcpy不需要指定长度，它遇到被复制字符的串结束符”\0”才结束，所以容易溢出。memcpy则是根据其第3个参数决定复制的长度。
+- 用途不同。通常在复制字符串时用strcpy，而需要复制其他类型数据时则一般用memcpy
+- strncpy函数，只是将src的前n个字符复制到dest的前n个字符，不自动添加’\0’。如果src的长度小于n个字节，则以NULL填充dest直到复制完n个字节
+
+### printf()和scanf()
+
+scanf(“%d %d”,&a,&b);
+遇到空格(0x20)停止读取
+
+printf(“%s”, i);
+输出直到\x00
+
+通常来说，我们会使用printf([格式化字符串]，参数)的形式来进行调用，例如
+
+```c
+char s[20] = “Hello world!\n”;
+printf(“%s”, s);
+```
+
+然而，有时候为了省事也会写成
+
+```c
+char s[20] = “Hello world!\n”;
+printf(s);
+```
+
+事实上，这是一种非常危险的写法。由于printf函数族的设计缺陷，当其第一个参数可被控制时，攻击者将有机会对任意内存地址进行读写操作。
+
+## 常见payload
+
+# 格式化字符串（printf）
+
+printf函数的格式化字符串常见的有 %d，%f，%c，%s，%x（输出16进制数，前面没有0x），%p（输出16进制数，前面带有0x）
+
+**但是有个不常见的格式化字符串 %n ，它的功能是将%n之前打印出来的字符个数，赋值给一个变量。**
+
+常见的payload如下：
+
+payload = p32(pwnme_addr) + 'aaaa' + '%10$n'
+
+见：攻防世界 - CGfsb
+
+## fmtstr_payload
+
+**fmtstr_payload(offset, writes, numbwritten=0, write_size='byte')**
+
+**fmtstr_payload(偏移,{key内存地址,value值})**
+
+第一个参数表示格式化字符串的偏移；
+
+第二个参数表示需要利用%n写入的数据，采用字典形；
+
+第三个参数表示已经输出的字符个数，这里没有，为0，采用默认值即可；
+
+第四个参数表示写入方式，是按字节（byte）、按双字节（short）还是按四字节（int），对应着hhn、hn和n，默认值是byte，即按hhn写。
 
