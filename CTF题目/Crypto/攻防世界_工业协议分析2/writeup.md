@@ -1,0 +1,1 @@
+strings查看字符串，发现：666c61677b37466f4d3253746b6865507a7d，16转换的得到flag：flag{7FoM2StkhePz}

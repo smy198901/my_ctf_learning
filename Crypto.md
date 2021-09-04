@@ -380,6 +380,43 @@ flag对应  9 57 64
 
 解法见：转轮机加密.py
 
+# ECC
+
+工具：ECCTOOL
+
+需要注意工具的`NumberBase`的选择，根据题目给出的数字，选择对应的进制。
+
+# 键盘加密
+
+字母包围的字符。
+
+```
+r5yG lp9I BjM tFhB T6uh y7iJ QsZ bhM
+T     O   N    G    Y   U     A   N
+```
+
+# Poem Codes（诗歌）
+
+最显著的特点就是一首诗歌。
+
+加密过程如下：
+
+（1）就其算法而言，去诗歌头一个单词，全部罗列出来，然后所有单词的字母按字母表排序并编码，如第一个a为1，第二个a为2，如果没有a了就看b，第一个b为3，第二个b为4，一直排列下去。。。
+
+（2）将要加密的信息的字母每18个一行（不足一行的abcdef....补足）
+
+（3）将加密的信息第一个字母对应第一步的编码数字，到第二步生成的字母表中取某列。
+
+（4）分组即成加密信息。
+
+解密工具：poemcode.py , 工具在kali中：/root/Tools/crypto-tools/poemcode
+
+```shell
+ python2 poemcode.py examples/1/poem examples/1/msg 
+```
+
+需要注意的是需要删除诗歌中的特殊字符，例如句号等。
+
 # RSA
 
 RSA算法的具体描述如下：
