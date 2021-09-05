@@ -544,6 +544,49 @@ print(long_to_bytes(m)) #b'flag{b4by_R5A}'
 
 5. 当p、q的取值差异过大或过于相近的时候，求解方法同4。
 
+6. 低加密指数广播攻击
+
+   - 加密指数e非常小
+   - 一份明文使用不同的模数n，相同的加密指数e进行多次加密
+   - 可以拿到每一份加密后的密文和对应的模数n、加密指数e
+
+   ```python
+   from Crypto.Util.number import long_to_bytes
+   import gmpy2
+   import libnum
+   
+   #中国剩余定理
+   def chinese_remainder_theorem(aList, mList):
+       M = 1
+       for i in mList:
+           M = M * i   #计算M = ∏ mi
+       #print(M)
+       x = 0
+       for i in range(len(mList)):
+           Mi = M // mList[i]   #计算Mi
+           Mi_inverse = gmpy2.invert(Mi, mList[i]) #计算Mi的逆元
+           x += aList[i] * Mi * Mi_inverse #构造x各项
+       x = x % M
+       return x
+   #题目给得到一组(c,e,n)的数据
+   enc = []
+   
+   cips=[]
+   keys=[]
+   
+   for cip_key in enc:
+   	cips.append(cip_key['c'])
+   	keys.append(cip_key['n'])
+   
+   sol=chinese_remainder_theorem(cips,keys)
+   msg,flag=gmpy2.iroot(gmpy2.mpz(str(sol)),gmpy2.mpz(str(10)))
+   print(msg)
+   print(flag)
+   print(long_to_bytes(msg))
+   ```
+
+   
+
 ## 密文（文件）
 
 ```python
