@@ -417,6 +417,10 @@ T     O   N    G    Y   U     A   N
 
 需要注意的是需要删除诗歌中的特殊字符，例如句号等。
 
+# streamgame
+
+见：攻防世界_streamgame2
+
 # RSA
 
 RSA算法的具体描述如下：
@@ -617,3 +621,14 @@ print(m)
 openssl rsautl -decrypt -in flag.enc -inkey private.key
 ```
 
+## yafu
+
+yafu 用于自动整数因式分解，在 RSA 中，当 p、q 的取值差异过大或过于相近的时候，使用 yafu 可以快速的把 n 值分解出 p、q 值，原理是使用 Fermat 方法与 Pollard rho 方法等。
+
+使用 cmd 进入到 yafu 所在目录下，或将目录加入到系统环境 PATH 变量，或打开目录文件夹后 shift + 右键 选择在此处打开 powershell 。
+
+假如要分解因数 6 ，输入命令：.\yafu-x64.exe "factor(6)"。
+
+如果因数过长，将 因数 用文本文件存放在 yafu 目录下，例如：data.txt 。文件最后一行一定要换行，否则 eof; done processing batchfile。
+
+运行命令：.\yafu-x64.exe "factor(@)" -batchfile data.txt
